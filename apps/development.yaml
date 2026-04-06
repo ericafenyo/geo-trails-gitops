@@ -20,4 +20,4 @@ spec:
     env:
       nodeEnv: development
     ingress:
-      host: geo-trails-dev.api.ericafenyo.com
+      host: geo-trails-dev-api.ericafenyo.com

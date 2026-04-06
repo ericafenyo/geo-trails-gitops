@@ -20,4 +20,4 @@ spec:
     env:
       nodeEnv: staging
     ingress:
-      host: geo-trails-staging.api.ericafenyo.com
+      host: geo-trails-staging-api.ericafenyo.com
