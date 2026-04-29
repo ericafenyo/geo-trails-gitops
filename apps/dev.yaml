@@ -4,8 +4,6 @@ metadata:
   name: gta-dev
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: flux-system
   interval: 10m
 
   targetNamespace: gta-dev
