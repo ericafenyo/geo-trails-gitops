@@ -1,4 +1,4 @@
-namespace: geo-trails-api
+namespace: gta-prod
 
 replicaCount: 2
 
@@ -9,4 +9,4 @@ env:
   nodeEnv: production
 
 ingress:
-  host: geo-trails.api.ericafenyo.com
+  host: gta.ericafenyo.com

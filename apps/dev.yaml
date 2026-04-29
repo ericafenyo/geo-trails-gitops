@@ -1,15 +1,16 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: geo-trails-api-production
+  name: gta-dev
   namespace: flux-system
 spec:
   interval: 10m
-  targetNamespace: geo-trails-api-production
+
+  targetNamespace: gta-dev
 
   install:
     createNamespace: true
-    
+
   chart:
     spec:
       chart: k8s
@@ -17,11 +18,12 @@ spec:
         kind: GitRepository
         name: flux-system
         namespace: flux-system
+
   values:
-    replicaCount: 2
+    replicaCount: 1
     image:
-      tag: 1.0.0
+      tag: latest
     env:
-      nodeEnv: production
+      nodeEnv: development
     ingress:
-      host: geo-trails-api.ericafenyo.com
+      host: dev-gta.ericafenyo.com
