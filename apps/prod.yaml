@@ -4,12 +4,14 @@ metadata:
   name: gta-prod
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: flux-system
   interval: 10m
   targetNamespace: gta-prod
 
   install:
     createNamespace: true
-    
+
   chart:
     spec:
       chart: k8s
