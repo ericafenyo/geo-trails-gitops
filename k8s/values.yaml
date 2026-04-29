@@ -11,7 +11,7 @@ imagePullSecrets:
 namespace: ""
 
 env:
-  secretRef: geo-trails-api-env
+  secretRef: api-env
   nodeEnv: production
   port: 3000
 
