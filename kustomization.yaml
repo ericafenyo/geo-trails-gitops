@@ -5,3 +5,9 @@ resources:
   - flux-system
   - secrets
   - apps
+
+patches:
+  - path: flux-patch.yaml
+    target:
+      kind: Kustomization
+      name: flux-system
