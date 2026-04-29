@@ -1,32 +1,38 @@
 #!/bin/bash
 
-# Configuration
-RAW_DIR="./.local/secrets"
-DEST_DIR="./secrets"
+# 1. Config
+SOURCE_DIR="./.local/secrets"
+OUTPUT_DIR="./secrets"
+# Use the default key file location or set SOPS_AGE_KEY_FILE env var elsewhere
+# SOPS will automatically find your public key if you've already encrypted files in this repo
 
-# Ensure destination exists
-mkdir -p "$DEST_DIR"
+# Ensure output directory exists
+mkdir -p "$OUTPUT_DIR"
 
-echo "🔐 Starting secret encryption..."
+echo "🔐 Starting encryption..."
 
-# Loop through dev and prod
-for env in dev prod; do
-    INPUT="$RAW_DIR/$env.secret.yaml"
-    OUTPUT="$DEST_DIR/$env.secret.enc.yaml"
-
-    if [ -f "$INPUT" ]; then
-        # SOPS will automatically pick up rules from .sops.yaml
-        sops --encrypt "$INPUT" > "$OUTPUT"
-        
-        if [ $? -eq 0 ]; then
-            echo "✅ Successfully encrypted $env -> $OUTPUT"
-        else
-            echo "❌ Failed to encrypt $env"
-        fi
+# 2. Function to encrypt safely
+encrypt_file() {
+    local src=$1
+    local dest=$2
+    
+    if [ -f "$src" ]; then
+        sops --encrypt "$src" > "$dest"
+        echo "✅ Encrypted: $src -> $dest"
     else
-        echo "⚠️  File not found: $INPUT"
+        echo "⚠️  Warning: $src not found, skipping."
     fi
+}
+
+# 3. Process Environment Secrets
+for env in dev prod; do
+    encrypt_file "$SOURCE_DIR/$env.secret.yaml" "$OUTPUT_DIR/$env.secret.enc.yaml"
 done
 
-echo "---"
-echo "Check your 'secrets/' folder. 'kind: Secret' should now be readable."
+# 4. Process GHCR Tokens
+# Note: kept your naming convention but aligned the 'prod' one for consistency
+for env in dev prod; do
+    encrypt_file "$SOURCE_DIR/$env.ghcr-token.yaml" "$OUTPUT_DIR/$env.ghcr-token.enc.yaml"
+done
+
+echo "🚀 All systems go. Ready for git push."
