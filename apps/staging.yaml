@@ -5,15 +5,20 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
+
+  targetNamespace: geo-trails-api-staging
+
+  install:
+    createNamespace: true
+
   chart:
     spec:
-      chart: ./k8s
+      chart: k8s
       sourceRef:
         kind: GitRepository
         name: flux-system
         namespace: flux-system
   values:
-    namespace: geo-trails-api-staging
     replicaCount: 1
     image:
       tag: rc-1.0.0
